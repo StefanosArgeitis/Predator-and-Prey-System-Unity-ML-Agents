@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1774393360",
+        "python_version": "3.10.12 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 19:01:18) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\Stefanos\\anaconda3\\envs\\mlagents\\Scripts\\mlagents-learn --run-id=Prey1 --force",
+        "mlagents_version": "1.2.0.dev0",
+        "mlagents_envs_version": "1.2.0.dev0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.2.2+cpu",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1774393362"
+    },
+    "total": 2.2656473999995796,
+    "count": 1,
+    "self": 0.002714199999900302,
+    "children": {
+        "run_training.setup": {
+            "total": 0.03283790000023146,
+            "count": 1,
+            "self": 0.03283790000023146
+        },
+        "TrainerController.start_learning": {
+            "total": 2.230095299999448,
+            "count": 1,
+            "self": 9.349999891128391e-05,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 2.229986000000281,
+                    "count": 1,
+                    "self": 2.229986000000281
+                },
+                "TrainerController._save_models": {
+                    "total": 1.5800000255694613e-05,
+                    "count": 1,
+                    "self": 1.5800000255694613e-05
+                }
+            }
+        }
+    }
+}
