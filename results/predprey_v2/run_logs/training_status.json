@@ -1,0 +1,107 @@
+{
+    "Predator": {
+        "checkpoints": [
+            {
+                "steps": 499689,
+                "file_path": "results\\predprey_v2\\Predator\\Predator-499689.onnx",
+                "reward": 0.47370000183582306,
+                "creation_time": 1776371436.8822584,
+                "auxillary_file_paths": [
+                    "results\\predprey_v2\\Predator\\Predator-499689.pt"
+                ]
+            },
+            {
+                "steps": 603808,
+                "file_path": "results\\predprey_v2\\Predator\\Predator-603808.onnx",
+                "reward": 0.5105178569044385,
+                "creation_time": 1776371695.9776566,
+                "auxillary_file_paths": [
+                    "results\\predprey_v2\\Predator\\Predator-603808.pt"
+                ]
+            },
+            {
+                "steps": 999778,
+                "file_path": "results\\predprey_v2\\Predator\\Predator-999778.onnx",
+                "reward": -1.0695000886917114,
+                "creation_time": 1776372361.3886979,
+                "auxillary_file_paths": [
+                    "results\\predprey_v2\\Predator\\Predator-999778.pt"
+                ]
+            },
+            {
+                "steps": 1004085,
+                "file_path": "results\\predprey_v2\\Predator\\Predator-1004085.onnx",
+                "reward": -0.5570749849081039,
+                "creation_time": 1776372384.0717294,
+                "auxillary_file_paths": [
+                    "results\\predprey_v2\\Predator\\Predator-1004085.pt"
+                ]
+            }
+        ],
+        "elo": 1266.901893780592,
+        "final_checkpoint": {
+            "steps": 1004085,
+            "file_path": "results\\predprey_v2\\Predator.onnx",
+            "reward": -0.5570749849081039,
+            "creation_time": 1776372384.0717294,
+            "auxillary_file_paths": [
+                "results\\predprey_v2\\Predator\\Predator-1004085.pt"
+            ]
+        }
+    },
+    "Prey": {
+        "checkpoints": [
+            {
+                "steps": 499144,
+                "file_path": "results\\predprey_v2\\Prey\\Prey-499144.onnx",
+                "reward": -0.10917000770568848,
+                "creation_time": 1776371517.2566295,
+                "auxillary_file_paths": [
+                    "results\\predprey_v2\\Prey\\Prey-499144.pt"
+                ]
+            },
+            {
+                "steps": 575696,
+                "file_path": "results\\predprey_v2\\Prey\\Prey-575696.onnx",
+                "reward": 0.5561999917030335,
+                "creation_time": 1776371696.0254252,
+                "auxillary_file_paths": [
+                    "results\\predprey_v2\\Prey\\Prey-575696.pt"
+                ]
+            },
+            {
+                "steps": 999971,
+                "file_path": "results\\predprey_v2\\Prey\\Prey-999971.onnx",
+                "reward": 0.447892856232974,
+                "creation_time": 1776372383.9764671,
+                "auxillary_file_paths": [
+                    "results\\predprey_v2\\Prey\\Prey-999971.pt"
+                ]
+            },
+            {
+                "steps": 1000203,
+                "file_path": "results\\predprey_v2\\Prey\\Prey-1000203.onnx",
+                "reward": 0.45506000101566313,
+                "creation_time": 1776372384.0165713,
+                "auxillary_file_paths": [
+                    "results\\predprey_v2\\Prey\\Prey-1000203.pt"
+                ]
+            }
+        ],
+        "elo": 1429.782469372286,
+        "final_checkpoint": {
+            "steps": 1000203,
+            "file_path": "results\\predprey_v2\\Prey.onnx",
+            "reward": 0.45506000101566313,
+            "creation_time": 1776372384.0165713,
+            "auxillary_file_paths": [
+                "results\\predprey_v2\\Prey\\Prey-1000203.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cpu"
+    }
+}

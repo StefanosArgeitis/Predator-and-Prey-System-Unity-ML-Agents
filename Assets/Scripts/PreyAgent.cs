@@ -6,10 +6,19 @@ using Unity.MLAgents.Actuators;
 public class PreyAgent : Agent
 {
     [SerializeField] private Transform _food;
+    [SerializeField] private PredatorAgent _predatorAgent;
 
     [Header("Prey Agent Settings")]
     [SerializeField] private float _moveSpeed = 2f;
     [SerializeField] private float _rotationSpeed = 180f;
+
+    [Header("Raycast Settings")]
+    [SerializeField] private int _rayCount = 12;    // rays per sweep
+    [SerializeField] private float _rayMaxDistance = 20f;  // world-units
+    [SerializeField] [Range(1f, 360f)] private float _fieldOfView = 180f; // degrees, centered on forward
+    
+    // Tag encoding: 0 = nothing, 1 = food, 2 = predator, 3 = wall
+    private static readonly string[] _tagOrder = { "Food", "Predator", "Wall" };
 
     // To change the agent's color based on events
     private Renderer _renderer;
@@ -40,86 +49,89 @@ public class PreyAgent : Agent
         _renderer.material.color = _originalColor;
 
         SpawnFood();
+        RandomizeSpawn();
+
         Debug.Log("PreyAgent episode started.");
+    }
+
+    private void RandomizeSpawn()
+    {
+        float randomX = Random.Range(-8f, 8f);
+        float randomZ = Random.Range(-8f, 8f);
+
+        transform.localPosition = new Vector3(randomX, 0.375f, randomZ);
     }
 
     private void SpawnFood()
     {
-        transform.localRotation = Quaternion.identity;
-        transform.localPosition = new Vector3(0f, 0.5f, 0f);
+        Vector3 spawnPos;
 
-        // Randomomizing food position around the agent (angle)
-        float randomAngle = Random.Range(0f, 360f);
-        Vector3 randomDirection = Quaternion.Euler(0f, randomAngle, 0f) * Vector3.forward;
+        float randomX = Random.Range(-9f, 9f);
+        float randomZ = Random.Range(-9f, 9f);
+        spawnPos = new Vector3(randomX, 0.5f, randomZ);
 
-        Debug.Log(randomAngle);
-        Debug.Log(randomDirection);
+        for (int i = 0; i < 10; i++)
+        {
+            if (Vector3.Distance(spawnPos, _predatorAgent.transform.localPosition) >= 5f)
+                break;
 
-        // Randomomizing food position around the agent (distance)
-        float randomDistance = Random.Range(1f, 5f);
+            randomX = Random.Range(-9f, 9f);
+            randomZ = Random.Range(-9f, 9f);
+            spawnPos = new Vector3(randomX, 0.5f, randomZ);
+        }
 
-        Debug.Log(randomDistance);
-
-        // Calculate the food position based on the random direction and distance
-        Vector3 foodPosition = transform.localPosition + randomDirection * randomDistance;
-        _food.localPosition = new Vector3(foodPosition.x, 0.5f, foodPosition.z);
-
+        _food.localPosition = spawnPos;
         Debug.Log("Food spawned at: " + _food.localPosition);
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Food Position
-        float foodPosX_normalized = _food.localPosition.x / 10f;
-        float foodPosZ_normalized = _food.localPosition.z / 10f;
+        float angleStep  = _rayCount > 1 ? _fieldOfView / (_rayCount - 1) : 0f;
+        float startAngle = -_fieldOfView / 2f;
+        for (int i = 0; i < _rayCount; i++)
+        {
+            float angle = startAngle + i * angleStep;
+            Vector3 dir = Quaternion.Euler(0f, angle, 0f) * transform.forward;
 
-        // Prey Agent Position
-        float preyAgentPosX_normalized = transform.localPosition.x / 10f;
-        float preyAgentPosZ_normalized = transform.localPosition.z / 10f;
+            float normalizedDistance = 1f; 
+            int hitTagIndex = -1;
 
-        // Prey Agent Rotation (Y-axis)
-        float preyAgentRotY_normalized = (transform.localEulerAngles.y / 360f) * 2f - 1f;
+            if (Physics.Raycast(transform.position, dir, out RaycastHit hit, _rayMaxDistance))
+            {
+                normalizedDistance = hit.distance / _rayMaxDistance;
+                for (int t = 0; t < _tagOrder.Length; t++)
+                {
+                    if (hit.collider.CompareTag(_tagOrder[t]))
+                    {
+                        hitTagIndex = t;
+                        break;
+                    }
+                }
+            }
 
-        // Add observations to the sensor
-        sensor.AddObservation(foodPosX_normalized);
-        sensor.AddObservation(foodPosZ_normalized);
+            sensor.AddObservation(normalizedDistance);
+            for (int t = 0; t < _tagOrder.Length; t++)
+                sensor.AddObservation(hitTagIndex == t ? 1f : 0f);
+        }
 
-        sensor.AddObservation(preyAgentPosX_normalized);
-        sensor.AddObservation(preyAgentPosZ_normalized);
-        sensor.AddObservation(preyAgentRotY_normalized);
+        sensor.AddObservation(transform.localPosition.x / 10f);
+        sensor.AddObservation(transform.localPosition.z / 10f);
+        sensor.AddObservation(transform.localEulerAngles.y / 360f * 2f - 1f);
     }
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        // Discrete actions: [0] = Move Forward, [1] = Rotate Left, [2] = Rotate Right
-        MoveAgent(actionBuffers.DiscreteActions);
+        float move   = Mathf.Clamp(actionBuffers.ContinuousActions[0], 0, 1f);
+        float rotate = Mathf.Clamp(actionBuffers.ContinuousActions[1], -1f, 1f);
+
+        transform.localPosition += move * _moveSpeed * Time.deltaTime * transform.forward;
+        transform.Rotate(Vector3.up, rotate * _rotationSpeed * Time.deltaTime);
 
         // Time penalty to encourage faster food collection
-        AddReward(-2f / MaxStep);
+        AddReward(-0.5f / MaxStep);
 
         // Update cumulative reward after each step
         CumulativeReward = GetCumulativeReward();
-    }
-
-    public void MoveAgent(ActionSegment<int> discreteActions)
-    {
-        int moveAction = discreteActions[0];
-
-        // Move Forward
-        if (moveAction == 1)
-        {
-            transform.localPosition += transform.forward * _moveSpeed * Time.deltaTime;
-        }
-        // Rotate Left
-        if (moveAction == 2)
-        {
-            transform.Rotate(Vector3.up, -_rotationSpeed * Time.deltaTime);
-        }
-        // Rotate Right
-        if (moveAction == 3)
-        {
-            transform.Rotate(Vector3.up, _rotationSpeed * Time.deltaTime);
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -146,7 +158,7 @@ public class PreyAgent : Agent
         if(collision.gameObject.CompareTag("Wall"))
         {
             // Additional penalty for staying in contact with walls
-            AddReward(-0.05f * Time.deltaTime);
+            AddReward(-0.05f * Time.fixedDeltaTime);
         }
     }
 
@@ -161,13 +173,42 @@ public class PreyAgent : Agent
 
     private void FoodReached()
     {
-        // Reward for collecting food
-        AddReward(1f);
+        SetReward(1f);
+        _predatorAgent.SetReward(-1f);
+
         _renderer.material.color = Color.green;
         CumulativeReward = GetCumulativeReward();
 
-        //End the episode after collecting food
+        _predatorAgent.EndEpisode();
         EndEpisode();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        float angleStep  = _rayCount > 1 ? _fieldOfView / (_rayCount - 1) : 0f;
+        float startAngle = -_fieldOfView / 2f;
+        for (int i = 0; i < _rayCount; i++)
+        {
+            float angle = startAngle + i * angleStep;
+            Vector3 dir = Quaternion.Euler(0f, angle, 0f) * transform.forward;
+
+            if (Physics.Raycast(transform.position, dir, out RaycastHit hit, _rayMaxDistance))
+            {
+                // Color by tag: green = food, red = predator, yellow = other hit
+                if (hit.collider.CompareTag("Food")) Gizmos.color = Color.green;
+                else if (hit.collider.CompareTag("Predator")) Gizmos.color = Color.red;
+                else Gizmos.color = Color.yellow;
+
+                Gizmos.DrawLine(transform.position, hit.point);
+                Gizmos.DrawSphere(hit.point, 0.1f);
+            }
+            else
+            {
+                // No hit = grey line 
+                Gizmos.color = Color.grey;
+                Gizmos.DrawLine(transform.position, transform.position + dir * _rayMaxDistance);
+            }
+        }
     }
 
 }

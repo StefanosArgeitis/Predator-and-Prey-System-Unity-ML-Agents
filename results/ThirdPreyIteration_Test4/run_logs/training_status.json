@@ -1,0 +1,38 @@
+{
+    "Prey": {
+        "checkpoints": [
+            {
+                "steps": 499162,
+                "file_path": "results\\ThirdPreyIteration_Test4\\Prey\\Prey-499162.onnx",
+                "reward": 2.8314218185842037,
+                "creation_time": 1775585478.13869,
+                "auxillary_file_paths": [
+                    "results\\ThirdPreyIteration_Test4\\Prey\\Prey-499162.pt"
+                ]
+            },
+            {
+                "steps": 500059,
+                "file_path": "results\\ThirdPreyIteration_Test4\\Prey\\Prey-500059.onnx",
+                "reward": 2.828146987101611,
+                "creation_time": 1775585478.1956275,
+                "auxillary_file_paths": [
+                    "results\\ThirdPreyIteration_Test4\\Prey\\Prey-500059.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500059,
+            "file_path": "results\\ThirdPreyIteration_Test4\\Prey.onnx",
+            "reward": 2.828146987101611,
+            "creation_time": 1775585478.1956275,
+            "auxillary_file_paths": [
+                "results\\ThirdPreyIteration_Test4\\Prey\\Prey-500059.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cpu"
+    }
+}

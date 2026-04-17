@@ -1,0 +1,107 @@
+{
+    "Predator": {
+        "checkpoints": [
+            {
+                "steps": 499543,
+                "file_path": "results\\predprey_v1\\Predator\\Predator-499543.onnx",
+                "reward": null,
+                "creation_time": 1776366864.2111044,
+                "auxillary_file_paths": [
+                    "results\\predprey_v1\\Predator\\Predator-499543.pt"
+                ]
+            },
+            {
+                "steps": 999931,
+                "file_path": "results\\predprey_v1\\Predator\\Predator-999931.onnx",
+                "reward": -1.0905625224113464,
+                "creation_time": 1776367671.593708,
+                "auxillary_file_paths": [
+                    "results\\predprey_v1\\Predator\\Predator-999931.pt"
+                ]
+            },
+            {
+                "steps": 1499704,
+                "file_path": "results\\predprey_v1\\Predator\\Predator-1499704.onnx",
+                "reward": -1.0478500080108644,
+                "creation_time": 1776368487.8997068,
+                "auxillary_file_paths": [
+                    "results\\predprey_v1\\Predator\\Predator-1499704.pt"
+                ]
+            },
+            {
+                "steps": 1774563,
+                "file_path": "results\\predprey_v1\\Predator\\Predator-1774563.onnx",
+                "reward": -1.0387027030055587,
+                "creation_time": 1776369050.9342048,
+                "auxillary_file_paths": [
+                    "results\\predprey_v1\\Predator\\Predator-1774563.pt"
+                ]
+            }
+        ],
+        "elo": 826.2660780549296,
+        "final_checkpoint": {
+            "steps": 1774563,
+            "file_path": "results\\predprey_v1\\Predator.onnx",
+            "reward": -1.0387027030055587,
+            "creation_time": 1776369050.9342048,
+            "auxillary_file_paths": [
+                "results\\predprey_v1\\Predator\\Predator-1774563.pt"
+            ]
+        }
+    },
+    "Prey": {
+        "checkpoints": [
+            {
+                "steps": 499687,
+                "file_path": "results\\predprey_v1\\Prey\\Prey-499687.onnx",
+                "reward": 0.8173124939203262,
+                "creation_time": 1776366951.8182619,
+                "auxillary_file_paths": [
+                    "results\\predprey_v1\\Prey\\Prey-499687.pt"
+                ]
+            },
+            {
+                "steps": 999920,
+                "file_path": "results\\predprey_v1\\Prey\\Prey-999920.onnx",
+                "reward": 0.9250887209369291,
+                "creation_time": 1776367757.1478672,
+                "auxillary_file_paths": [
+                    "results\\predprey_v1\\Prey\\Prey-999920.pt"
+                ]
+            },
+            {
+                "steps": 1499706,
+                "file_path": "results\\predprey_v1\\Prey\\Prey-1499706.onnx",
+                "reward": 0.9645901615502405,
+                "creation_time": 1776368576.3222036,
+                "auxillary_file_paths": [
+                    "results\\predprey_v1\\Prey\\Prey-1499706.pt"
+                ]
+            },
+            {
+                "steps": 1704883,
+                "file_path": "results\\predprey_v1\\Prey\\Prey-1704883.onnx",
+                "reward": 0.9658489612241586,
+                "creation_time": 1776369050.9910107,
+                "auxillary_file_paths": [
+                    "results\\predprey_v1\\Prey\\Prey-1704883.pt"
+                ]
+            }
+        ],
+        "elo": 1603.5107926099988,
+        "final_checkpoint": {
+            "steps": 1704883,
+            "file_path": "results\\predprey_v1\\Prey.onnx",
+            "reward": 0.9658489612241586,
+            "creation_time": 1776369050.9910107,
+            "auxillary_file_paths": [
+                "results\\predprey_v1\\Prey\\Prey-1704883.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cpu"
+    }
+}
